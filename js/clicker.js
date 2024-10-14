@@ -174,26 +174,32 @@ window.addEventListener('load', (event) => {
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer
  */
+    
 upgrades = [
     {
-        name: 'Sop',
+        name: 'Bröd',
         cost: 10,
         amount: 1,
     },
     {
-        name: 'Kvalitetsspade',
+        name: 'Frön',
         cost: 50,
         clicks: 2,
     },
     {
-        name: 'Skottkärra',
+        name: 'Fröbollar',
         cost: 100,
         amount: 10,
     },
     {
-        name: 'Grävmaskin',
+        name: 'Hönsfoder',
         cost: 1000,
         amount: 100,
+    },
+    {
+        name: 'Ankgård',
+        cost: 10000000000,
+        amount: 100000,
     },
 ];
 
