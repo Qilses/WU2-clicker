@@ -15,7 +15,15 @@ const mpcTracker = document.querySelector('#mpc'); // money per click
 const upgradesTracker = document.querySelector('#upgrades');
 const upgradeList = document.querySelector('#upgradelist');
 const msgbox = document.querySelector('#msgbox');
-const audioAchievement = document.querySelector('#swoosh');
+const audio = document.querySelector('#swoosh');
+
+    function playsound() {
+        const swooshAudio = new Audio('Audio\McDonalds.Sound.mp3');
+        swooshAudio.play();
+        audio.load();
+        audio.play();
+        
+    }
 
 /* Följande variabler använder vi för att hålla reda på hur mycket pengar som
  * spelaren, har och tjänar.
@@ -39,23 +47,38 @@ let active = false; // exempel för att visa att du kan lägga till klass för a
 
 let achievements = [
     {
-        description: 'Museet är redo att öppna, grattis! ',
+        description: 'Nu har du fångat nog med ankor ditt monster! ',
         requiredUpgrades: 1,
         acquired: false,
     },
     {
-        description: 'Nu börjar det likna något, fortsätt gräva!',
+        description: 'Vad har ankorna gjort dig????',
         requiredUpgrades: 10,
         acquired: false,
     },
     {
-        description: 'Klickare, med licens att klicka!',
+        description: 'Varför gör du detta????',
         requiredClicks: 10,
         acquired: false,
     },
     {
-        description: 'Tac-2 god!',
+        description: 'Herregud vad du avskyr Ankor',
         requiredClicks: 10000,
+        acquired: false,
+    },
+    {
+        description: 'Okej, grabben nu fuskar du bara.... ',
+        requiredUpgrades: 1000,
+        acquired: false,
+    },
+    {
+        description: 'Okej, grabben nu fuskar du bara.... ',
+        requiredUpgrades: 1000,
+        acquired: false,
+    },
+    {
+        description: 'Jävlar, Du är ju bäst på detta........',
+        requiredClicks: 99999999999,
         acquired: false,
     },
 ];
@@ -78,6 +101,9 @@ clickerButton.addEventListener(
         // håll koll på hur många gånger spelaren klickat
         numberOfClicks += 1;
         // console.log(clicker.score);
+          new playsound(); 
+
+        
 });
 
 Ball.addEventListener(
@@ -167,6 +193,7 @@ window.addEventListener('load', (event) => {
     window.requestAnimationFrame(step);
 });
 
+
 /* En array med upgrades. Varje upgrade är ett objekt med egenskaperna name, cost
  * och amount. Önskar du ytterligare text eller en bild så går det utmärkt att
  * lägga till detta.
@@ -184,6 +211,8 @@ upgrades = [
     {
         name: 'Frön',
         cost: 50,
+        requiredUpgrade: 'Bröd',
+        requiredAmount: 25,
         clicks: 2,
     },
     {
@@ -232,17 +261,24 @@ function createCard(upgrade) {
     } else {
         header.textContent = `${upgrade.name}, +${upgrade.clicks} per klick.`;
     }
-    cost.textContent = `Köp för ${upgrade.cost} benbitar.`;
+    cost.textContent = `Köp för ${upgrade.cost} Ankor`;
 
     card.addEventListener('click', (e) => {
         if (money >= upgrade.cost) {
+            if (upgrade.requiredUpgrade) {
+                const requiredUpgrade = upgrades.find(u => u.name === upgrade.requiredUpgrade);
+                if (!requiredUpgrade || requiredUpgrade.amount < upgrade.requiredAmount) {
+                    message(`Du behöver ${upgrade.requiredAmount} av ${upgrade.requiredUpgrade} Ankor.`, 'warning');
+                    return;
+                }
+            }
             acquiredUpgrades++;
             money -= upgrade.cost;
             upgrade.cost *= 1.5;
-            cost.textContent = 'Köp för ' + upgrade.cost + ' benbitar';
+            cost.textContent = 'Köp för ' + upgrade.cost + ' Ankor';
             moneyPerSecond += upgrade.amount ? upgrade.amount : 0;
             moneyPerClick += upgrade.clicks ? upgrade.clicks : 0;
-            message('Grattis du har köpt en uppgradering!', 'success');
+            message('Sluta...detta är inte okej', 'success');
         } else {
             message('Du har inte råd.', 'warning');
         }
@@ -266,7 +302,8 @@ function message(text, type) {
     p.textContent = text;
     msgbox.appendChild(p);
     if (type === 'achievement') {
-        audioAchievement.play();
+        playsound();
+        
     }
     setTimeout(() => {
         p.parentNode.removeChild(p);
