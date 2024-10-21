@@ -72,11 +72,6 @@ let achievements = [
         acquired: false,
     },
     {
-        description: 'Okej, grabben nu fuskar du bara.... ',
-        requiredUpgrades: 1000,
-        acquired: false,
-    },
-    {
         description: 'Jävlar, Du är ju bäst på detta........',
         requiredClicks: 99999999999,
         acquired: false,
